@@ -4,8 +4,11 @@
 node_modules/
 
 # =========================
-# Cypress
+# Cypress Artifacts
 # =========================
+videos
+screenshots
+downloads
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/

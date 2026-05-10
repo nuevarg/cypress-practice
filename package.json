@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress open",
-    "test-all": "cypress run --browser electron --spec 'cypress/e2e/*'"
+    "test-run": "cypress run",
+    "test-all": "cypress run --browser electron --spec 'cypress/e2e/*'",
+    "docker:up": "docker compose up",
+    "docker:build": "docker compose build"
   },
   "repository": {
     "type": "git",
