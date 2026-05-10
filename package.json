@@ -1,17 +1,18 @@
 {
   "name": "cypress-practice",
   "version": "1.0.0",
-  "description": "",
+  "description": "cypress practice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress open",
+    "test-all": "cypress run --browser electron --spec 'cypress/e2e/*'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nuevarg/cypress-practice.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rifqi Jauhari",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
