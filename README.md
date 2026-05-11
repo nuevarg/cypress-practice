@@ -1,52 +1,56 @@
 # Cypress Practice
 
-A professional-ready Cypress automation testing starter project using:
+A scalable Cypress automation testing practice project using:
 
-* Cypress
-* Docker
-* Docker Compose
-* Node.js
-* GitHub
+- Cypress
+- Docker
+- Docker Compose
+- Mochawesome Reporter
 
 Designed for:
+- QA Automation learning
+- Portfolio projects
+- CI/CD preparation
+- Dockerized test execution
+- Cross-machine consistency
 
-* QA Automation practice
-* Portfolio projects
-* CI/CD preparation
-* Cross-machine consistency
-* Future scalability
+---
+
+# Repository
+
+GitHub Repository:
+
+https://github.com/nuevarg/cypress-practice
+
+> Important:
+> This repository uses `master` as the main branch instead of `main`.
 
 ---
 
 # Tech Stack
 
-| Tool           | Purpose                       |
-| -------------- | ----------------------------- |
-| Cypress        | End-to-end automation testing |
-| Docker         | Environment consistency       |
-| Docker Compose | Container orchestration       |
-| Node.js        | JavaScript runtime            |
-| npm            | Dependency management         |
+| Tool | Purpose |
+|---|---|
+| Cypress | End-to-end automation testing |
+| Docker | Containerized execution |
+| Docker Compose | Service orchestration |
+| Node.js | JavaScript runtime |
+| npm | Package management |
+| Mochawesome Reporter | Test reporting |
 
 ---
 
-# Recommended Environment
+# Prerequisites
 
-## Windows
+Install these first before starting.
 
-Recommended:
+---
 
-* Windows 10/11
-* WSL2 enabled
-* Docker Desktop installed
+## 1. Install Git
 
-## Required Software
+https://git-scm.com/download/win
 
-### 1. Install Git
-
-[https://git-scm.com/download/win](https://git-scm.com/download/win)
-
-Verify:
+Verify installation:
 
 ```bash
 git --version
@@ -54,11 +58,11 @@ git --version
 
 ---
 
-### 2. Install Node.js (LTS)
+## 2. Install Node.js (LTS Recommended)
 
-[https://nodejs.org/](https://nodejs.org/)
+https://nodejs.org/
 
-Verify:
+Verify installation:
 
 ```bash
 node -v
@@ -67,16 +71,15 @@ npm -v
 
 ---
 
-### 3. Install Docker Desktop
+## 3. Install Docker Desktop
 
-[https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+https://www.docker.com/products/docker-desktop/
 
-During installation:
+Recommended settings:
+- Enable WSL2
+- Enable virtualization support
 
-* Enable WSL2
-* Enable virtualization support
-
-Verify:
+Verify installation:
 
 ```bash
 docker --version
@@ -85,15 +88,13 @@ docker compose version
 
 ---
 
-# Project Setup
-
-## 1. Clone Repository
+# Clone Project
 
 ```bash
 git clone https://github.com/nuevarg/cypress-practice.git
 ```
 
-Enter project:
+Enter project directory:
 
 ```bash
 cd cypress-practice
@@ -101,61 +102,95 @@ cd cypress-practice
 
 ---
 
-# Install Dependencies
+# Initial Setup
 
-## Install Everything
+Install all dependencies and build Docker container:
 
 ```bash
-npm install
+npm run setup
 ```
 
-This installs:
-
-* Cypress
-* Reporting dependencies
-* Project packages
-* All required npm dependencies
-
-You DO NOT need to install packages one-by-one.
+This command will:
+- install npm dependencies
+- install Cypress
+- build Docker image
 
 ---
 
-# Start Cypress Locally
+# Available Scripts
 
-## Interactive UI Mode
+| Command | Purpose |
+|---|---|
+| npm run setup | Install dependencies + build Docker |
+| npm run test | Open Cypress UI |
+| npm run test-run | Run Cypress headless |
+| npm run test-all | Run all specs in Electron |
+| npm run docker:build | Build Docker container |
+| npm run docker:up | Run Cypress inside Docker |
+
+---
+
+# Running Cypress Locally
+
+## Open Interactive Cypress UI
 
 ```bash
-npm run cy:open
+npm run test
 ```
 
-OR:
+Equivalent to:
 
 ```bash
 npx cypress open
 ```
 
+Recommended for:
+- writing tests
+- debugging
+- inspecting selectors
+- watching execution live
+
 ---
 
-## Headless Mode
+# Running Cypress Headless
 
 ```bash
-npm run cy:run
+npm run test-run
 ```
 
-OR:
+Equivalent to:
 
 ```bash
 npx cypress run
 ```
 
+Recommended for:
+- quick execution
+- CI pipelines
+- regression runs
+
 ---
 
-# Docker Setup
-
-## Build Docker Container
+# Running All Specs
 
 ```bash
-docker compose build
+npm run test-all
+```
+
+This runs:
+- all specs
+- using Electron browser
+
+---
+
+# Docker Usage
+
+---
+
+## Build Docker Image
+
+```bash
+npm run docker:build
 ```
 
 ---
@@ -163,65 +198,27 @@ docker compose build
 ## Run Cypress Inside Docker
 
 ```bash
-docker compose up
+npm run docker:up
 ```
 
-This runs Cypress in headless mode inside the container.
+This executes Cypress inside the Docker container.
+
+Recommended for:
+- consistent execution
+- CI/CD pipelines
+- shared environments
+- regression testing
 
 ---
 
-# Run Cypress UI Through Docker
+# Recommended Workflow
 
-GUI mode through Docker is possible but NOT recommended on Windows because it requires:
-
-* X11 forwarding
-* WSL display server
-* DISPLAY environment setup
-* Additional Linux GUI dependencies
-
-Recommended approach:
-
-| Usage                   | Recommended Method |
-| ----------------------- | ------------------ |
-| Writing/debugging tests | Local Cypress UI   |
-| Stable execution / CI   | Docker             |
-| Automated regression    | Docker             |
-
----
-
-# Suggested Workflow
-
-## Local Development
-
-Use:
-
-```bash
-npm run cy:open
-```
-
-For:
-
-* debugging
-* writing tests
-* inspecting selectors
-* watching execution live
-
----
-
-## Docker Execution
-
-Use:
-
-```bash
-docker compose up
-```
-
-For:
-
-* stable runs
-* CI/CD
-* regression tests
-* shared execution environments
+| Activity | Recommended Method |
+|---|---|
+| Writing/debugging tests | Local Cypress UI |
+| Regression execution | Docker |
+| CI/CD execution | Docker |
+| Interactive debugging | Local execution |
 
 ---
 
@@ -248,24 +245,25 @@ cypress-practice/
 
 ---
 
-# Common Problems & Solutions
+# Common Issues & Solutions
 
-## Docker Desktop Not Starting
+---
 
-### Possible Causes
+## Docker Desktop Stuck Starting
 
-* Virtualization disabled
-* WSL2 issue
-* Hyper-V disabled
+Possible causes:
+- virtualization disabled
+- WSL2 issue
+- Hyper-V disabled
 
-### Solutions
+### Solution
 
 Enable virtualization in BIOS:
 
-* AMD: SVM Mode
-* Intel: VT-x
+- AMD → SVM Mode
+- Intel → VT-x
 
-Then:
+Then run:
 
 ```powershell
 wsl --update
@@ -275,13 +273,12 @@ Restart Docker Desktop.
 
 ---
 
-## Cypress Failed to Install
+## Cypress Installation Failed
 
-### Possible Causes
-
-* Antivirus
-* Proxy
-* Firewall
+Possible causes:
+- antivirus
+- firewall
+- proxy
 
 ### Solution
 
@@ -292,7 +289,22 @@ node_modules
 package-lock.json
 ```
 
-Then:
+Then reinstall:
+
+```bash
+npm install
+```
+
+---
+
+## Permission Error (EPERM)
+
+Close:
+- VS Code
+- File Explorer windows
+- Cypress
+
+Then retry:
 
 ```bash
 npm install
@@ -302,16 +314,12 @@ npm install
 
 ## Docker Build Very Slow on Windows
 
+Windows filesystem can slow Docker volume mounting.
+
 Recommended:
-Store project inside WSL filesystem.
+Store project inside WSL filesystem instead of `C:\Users\...`
 
-Instead of:
-
-```text
-C:\Users\...
-```
-
-Use:
+Example:
 
 ```text
 \\wsl$\Ubuntu\home\username\projects
@@ -321,39 +329,22 @@ This significantly improves Docker performance.
 
 ---
 
-## Permission Errors (EPERM)
+# Reporting
 
-Close:
+Current reporting tool:
+- cypress-mochawesome-reporter
 
-* VS Code
-* File Explorer windows
-* Cypress
-
-Then:
-
-```bash
-npm install
-```
-
----
-
-# Future Improvements
-
-Planned future additions:
-
-* Allure Report
-* GitHub Actions CI
-* Multi-browser execution
-* Parallel execution
-* Retry strategies
-* API testing
-* Environment configs
-* Visual testing
-* Page Object Model
+Future planned improvements:
+- Allure Report
+- GitHub Actions CI
+- Parallel execution
+- Multi-browser testing
+- Retry strategies
+- Visual testing
 
 ---
 
-# Git Commands
+# Git Workflow
 
 ## Commit Changes
 
@@ -365,21 +356,8 @@ git push origin master
 
 ---
 
-# Useful Commands
-
-| Command                | Purpose               |
-| ---------------------- | --------------------- |
-| npm install            | Install dependencies  |
-| npm run cy:open        | Open Cypress UI       |
-| npm run cy:run         | Run Cypress headless  |
-| docker compose build   | Build Docker image    |
-| docker compose up      | Run Cypress in Docker |
-| docker system prune -a | Clean Docker cache    |
-
----
-
 # Notes
 
-* Local Cypress UI is recommended for development.
-* Docker execution is recommended for CI/CD and stable regression runs.
-* This repository is intended as a scalable QA automation practice project.
+- Local Cypress UI is recommended for development.
+- Docker execution is recommended for stable automated execution.
+- This repository is intended as a scalable QA automation practice framework.
