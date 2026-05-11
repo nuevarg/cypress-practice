@@ -23,6 +23,11 @@
   },
   "homepage": "https://github.com/nuevarg/cypress-practice#readme",
   "devDependencies": {
-    "cypress": "^15.14.2"
+    "cypress": "^15.14.2",
+    "cypress-mochawesome-reporter": "^4.0.2"
+  },
+  "overrides": {
+    "diff": "^8.0.2",
+    "serialize-javascript": "^7.0.0"
   }
 }
