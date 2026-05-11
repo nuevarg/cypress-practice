@@ -9,9 +9,11 @@ node_modules/
 videos
 screenshots
 downloads
+reports
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
+cypress/reports/
 
 # Cypress cache
 CypressBinary/
