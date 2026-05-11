@@ -4,6 +4,7 @@
   "description": "cypress practice",
   "main": "index.js",
   "scripts": {
+    "setup": "npm install && docker compose build",
     "test": "cypress open",
     "test-run": "cypress run",
     "test-all": "cypress run --browser electron --spec 'cypress/e2e/*'",
