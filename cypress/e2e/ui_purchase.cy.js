@@ -1,0 +1,53 @@
+/// <reference types='cypress' />
+import InventoryPage from "../page/inventoryPage.js";
+import CartPage from "../page/cartPage.js";
+import CheckoutInfoPage from "../page/checkoutInfoPage.js";
+import CheckoutOverviewPage from "../page/checkoutOverviewPage.js";
+import CheckoutCompletePage from "../page/checkoutCompletePage.js";
+import { faker } from "@faker-js/faker";
+
+const firstName = faker.person.firstName();
+const lastName = faker.person.lastName();
+const postalCode = faker.location.zipCode();
+
+context("Purchase flow", () => {
+  beforeEach(() => {
+    cy.visit("/");
+    cy.login();
+  });
+
+  afterEach(() => {
+    cy.screenshot("test-complete");
+    cy.clearLocalStorage();
+    cy.clearCookies();
+  });
+
+  it("should be able to add items to cart and complete purchase", () => {
+    cy.get(InventoryPage.addToCartButton).eq(0).click();
+    cy.get(InventoryPage.addToCartButton).eq(1).click();
+    cy.get(InventoryPage.shoppingCartButton).click();
+    cy.get(CartPage.cartTitle).should("be.visible");
+    cy.get(CartPage.cartList).should("be.visible");
+    cy.get(CartPage.checkoutButton).click();
+    cy.get(CheckoutInfoPage.checkoutInfoTitle).should("be.visible");
+    cy.get(CheckoutInfoPage.firstName).type(firstName);
+    cy.get(CheckoutInfoPage.lastName).type(lastName);
+    cy.get(CheckoutInfoPage.postalCode).type(postalCode);
+    cy.get(CheckoutInfoPage.continueButton).click();
+    cy.get(CheckoutOverviewPage.checkoutOverviewTitle).should("be.visible");
+    cy.get(CheckoutOverviewPage.cartList).should("be.visible");
+    cy.get(CheckoutOverviewPage.cartItem).should("be.visible");
+    cy.get(CheckoutOverviewPage.finishButton).click();
+    cy.get(CheckoutCompletePage.checkoutCompleteTitle).should(
+      "have.text",
+      "Thank you for your order!",
+    );
+    cy.get(CheckoutCompletePage.checkoutCompleteText).should(
+      "have.text",
+      "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+    );
+    cy.screenshot("checkout-complete");
+    cy.get(CheckoutCompletePage.backHomeButton).click();
+    cy.url().should("include", "inventory.html");
+  });
+});

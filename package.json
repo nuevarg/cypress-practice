@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/nuevarg/cypress-practice#readme",
   "devDependencies": {
+    "@faker-js/faker": "^10.4.0",
     "cypress": "^15.14.2",
     "cypress-mochawesome-reporter": "^4.0.2"
   },
