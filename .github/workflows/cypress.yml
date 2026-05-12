@@ -13,6 +13,17 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+
+      matrix:
+        spec:
+          - cypress/e2e/ui_login.cy.js
+          - cypress/e2e/ui_purchase.cy.js
+          - cypress/e2e/google.cy.js
+
+    name: Run ${{ matrix.spec }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,33 +32,43 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run Cypress tests
-        run: npm run test-run
+      - name: Run Cypress spec
+        run: npx cypress run --spec ${{ matrix.spec }}
+
         env:
           CYPRESS_username: ${{ secrets.CYPRESS_USERNAME }}
           CYPRESS_password: ${{ secrets.CYPRESS_PASSWORD }}
 
-      - name: Upload Mochawesome Reports
+      - name: Upload Mochawesome HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-report
-          path: cypress/reports
+          name: mochawesome-${{ github.run_number }}-${{ strategy.job-index }}
+          path: |
+            cypress/reports/**/*.html
+            cypress/reports/**/*.json
+          if-no-files-found: warn
+          retention-days: 14
 
-      - name: Upload Screenshots
+      - name: Upload Cypress screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
+          name: screenshots-${{ strategy.job-index }}
           path: cypress/screenshots
+          if-no-files-found: ignore
+          retention-days: 14
 
-      - name: Upload Videos
+      - name: Upload Cypress videos
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: videos
+          name: videos-${{ strategy.job-index }}
           path: cypress/videos
+          if-no-files-found: ignore
+          retention-days: 14
