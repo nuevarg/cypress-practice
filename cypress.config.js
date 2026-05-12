@@ -25,11 +25,17 @@ module.exports = defineConfig({
     ignoreVideos: false,
   },
 
+  env: {
+    allure: true,
+    allureResultsPath: "allure-results",
+  },
+
   e2e: {
     baseUrl: "https://www.saucedemo.com",
 
     setupNodeEvents(on, config) {
       require("cypress-mochawesome-reporter/plugin")(on);
+      require("@shelex/cypress-allure-plugin/writer")(on, config);
       return config;
     },
   },
