@@ -1,3 +1,14 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -27,8 +38,7 @@ jobs:
         run: npm ci
 
       - name: Run Cypress spec
-        run: npx cypress run --spec ${{ matrix.spec }}
-
+        run: npx cypress run --spec "${{ matrix.spec }}"
         env:
           CYPRESS_username: ${{ secrets.CYPRESS_USERNAME }}
           CYPRESS_password: ${{ secrets.CYPRESS_PASSWORD }}
