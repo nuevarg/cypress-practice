@@ -8,12 +8,6 @@ context("Visit all pages", () => {
     cy.visit("/");
   });
 
-  afterEach(() => {
-    cy.screenshot("test-complete");
-    cy.clearLocalStorage();
-    cy.clearCookies();
-  });
-
   it("should visit login page", () => {
     cy.get(LoginPage.usernameField).should("be.visible");
     cy.get(LoginPage.passwordField).should("be.visible");

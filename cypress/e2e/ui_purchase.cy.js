@@ -16,12 +16,6 @@ context("Purchase flow", () => {
     cy.login();
   });
 
-  afterEach(() => {
-    cy.screenshot("test-complete");
-    cy.clearLocalStorage();
-    cy.clearCookies();
-  });
-
   it("should be able to add items to cart and complete purchase", () => {
     cy.get(InventoryPage.addToCartButton).eq(0).click();
     cy.get(InventoryPage.addToCartButton).eq(1).click();
