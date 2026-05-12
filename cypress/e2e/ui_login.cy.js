@@ -5,7 +5,7 @@ import InventoryPage from "../page/inventoryPage.js";
 
 context("Visit all pages", () => {
   beforeEach(() => {
-    cy.visit("https://www.saucedemo.com/");
+    cy.visit("/");
   });
 
   afterEach(() => {
