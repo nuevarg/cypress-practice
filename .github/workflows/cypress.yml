@@ -21,9 +21,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Cypress tests
         run: npm run test-run
@@ -31,23 +32,31 @@ jobs:
           CYPRESS_username: ${{ secrets.CYPRESS_USERNAME }}
           CYPRESS_password: ${{ secrets.CYPRESS_PASSWORD }}
 
-      - name: Upload Mochawesome Reports
+      - name: Upload Mochawesome HTML report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-report
-          path: cypress/reports
+          name: mochawesome-html-report-${{ github.run_number }}
+          path: |
+            cypress/reports/**/*.html
+            cypress/reports/**/*.json
+          if-no-files-found: warn
+          retention-days: 14
 
-      - name: Upload Screenshots
+      - name: Upload Cypress screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
+          name: cypress-screenshots-${{ github.run_number }}
           path: cypress/screenshots
+          if-no-files-found: ignore
+          retention-days: 14
 
-      - name: Upload Videos
+      - name: Upload Cypress videos
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: videos
+          name: cypress-videos-${{ github.run_number }}
           path: cypress/videos
+          if-no-files-found: ignore
+          retention-days: 14
