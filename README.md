@@ -1,5 +1,7 @@
 # Cypress Practice
 
+[![Cypress Tests](https://github.com/nuevarg/cypress-practice/actions/workflows/cypress.yml/badge.svg)](https://github.com/nuevarg/cypress-practice/actions/workflows/cypress.yml)
+
 A Cypress end-to-end automation practice project for testing [Sauce Demo](https://www.saucedemo.com/).
 
 This repo is built as a QA automation portfolio project using Cypress, Docker, Mochawesome reporting, Page Object-style selectors, custom Cypress commands, environment-based credentials, and Faker test data.
