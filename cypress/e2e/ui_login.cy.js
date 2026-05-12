@@ -36,4 +36,11 @@ context("Visit all pages", () => {
     cy.get(LoginPage.passwordField).should("be.visible");
     cy.get(LoginPage.loginButton).should("be.visible");
   });
+
+  it("should not be able to login with random credentials", () => {
+    cy.get(LoginPage.usernameField).type("randomuser");
+    cy.get(LoginPage.passwordField).type("randompassword");
+    cy.get(LoginPage.loginButton).click();
+    cy.get(LoginPage.errorMessage).should("be.visible");
+  });
 });
