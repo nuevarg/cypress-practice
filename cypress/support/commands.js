@@ -30,12 +30,14 @@ const username = Cypress.env("username");
 const password = Cypress.env("password");
 
 Cypress.Commands.add("login", () => {
+  cy.allure().logStep("Login with valid credentials");
   cy.get(LoginPage.usernameField).type(username);
   cy.get(LoginPage.passwordField).type(password);
   cy.get(LoginPage.loginButton).click();
 });
 
 Cypress.Commands.add("logout", () => {
+  cy.allure().logStep("Logout");
   cy.get(BurgerMenu.burgerButton).click();
   cy.get(BurgerMenu.logoutButton).click();
 });

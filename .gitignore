@@ -74,6 +74,8 @@ temp/
 mochawesome-report/
 test-results/
 playwright-report/
+allure-results/
+allure-report/
 
 # =========================
 # Misc

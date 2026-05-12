@@ -12,25 +12,34 @@ const postalCode = faker.location.zipCode();
 
 context("Purchase flow", () => {
   beforeEach(() => {
+    cy.allure().logStep("Open SauceDemo website");
     cy.visit("/");
+    cy.allure().logStep("Login with valid credentials");
     cy.login();
   });
 
   it("should be able to add items to cart and complete purchase", () => {
+    cy.allure().logStep("Add items to cart");
     cy.get(InventoryPage.addToCartButton).eq(0).click();
     cy.get(InventoryPage.addToCartButton).eq(1).click();
+    cy.allure().logStep("Navigate to cart");
     cy.get(InventoryPage.shoppingCartButton).click();
+    cy.allure().logStep("Verify cart is visible");
     cy.get(CartPage.cartTitle).should("be.visible");
     cy.get(CartPage.cartList).should("be.visible");
+    cy.allure().logStep("Proceed to checkout");
     cy.get(CartPage.checkoutButton).click();
+    cy.allure().logStep("Fill out checkout information");
     cy.get(CheckoutInfoPage.checkoutInfoTitle).should("be.visible");
     cy.get(CheckoutInfoPage.firstName).type(firstName);
     cy.get(CheckoutInfoPage.lastName).type(lastName);
     cy.get(CheckoutInfoPage.postalCode).type(postalCode);
     cy.get(CheckoutInfoPage.continueButton).click();
+    cy.allure().logStep("Verify checkout overview is visible");
     cy.get(CheckoutOverviewPage.checkoutOverviewTitle).should("be.visible");
     cy.get(CheckoutOverviewPage.cartList).should("be.visible");
     cy.get(CheckoutOverviewPage.cartItem).should("be.visible");
+    cy.allure().logStep("Complete the purchase");
     cy.get(CheckoutOverviewPage.finishButton).click();
     cy.get(CheckoutCompletePage.checkoutCompleteTitle).should(
       "have.text",
