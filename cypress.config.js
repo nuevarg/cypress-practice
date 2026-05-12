@@ -1,20 +1,24 @@
 const { defineConfig } = require("cypress");
+const timestamp = new Date()
+  .toISOString()
+  .replace(/:/g, "-")
+  .replace(/\./g, "-");
 
 module.exports = defineConfig({
-  allowCypressEnv: false,
+  allowCypressEnv: true,
   video: true,
   chromeWebSecurity: false,
   fixturesFolder: "./cypress/fixtures",
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     reportDir: "cypress/reports",
-    reportFilename: "automation-report",
+    reportFilename: `automation-report-${timestamp}`,
     overwrite: false,
     html: true,
     json: true,
     saveJson: true,
     charts: true,
-    reportPageTitle: "cypress-practice",
+    reportPageTitle: `cypress-practice-${timestamp}`,
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,

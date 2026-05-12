@@ -26,6 +26,7 @@ CypressBinary/
 .env
 .env.local
 .env.*.local
+cypress.env.json
 
 # =========================
 # Logs
