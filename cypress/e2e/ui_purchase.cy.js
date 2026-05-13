@@ -14,7 +14,6 @@ context("Purchase flow", () => {
   beforeEach(() => {
     cy.allure().step("Open SauceDemo website");
     cy.visit("/");
-    cy.allure().step("Login with valid credentials");
     cy.login();
   });
 

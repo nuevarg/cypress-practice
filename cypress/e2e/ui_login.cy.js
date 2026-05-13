@@ -20,21 +20,20 @@ context("Visit all pages", () => {
     cy.get(LoginPage.loginCredentials).should("be.visible");
     cy.allure().step("Verify login password is visible");
     cy.get(LoginPage.loginPassword).should("be.visible");
+    cy.screenshot("login-page");
   });
 
   it("should be able to login without errors", () => {
-    cy.allure().step("Login with valid credentials");
     cy.login();
     cy.allure().step("Verify user is redirected to inventory page");
     cy.url().should("include", "inventory.html");
     cy.allure().step("Verify inventory title is visible");
     cy.get(InventoryPage.inventoryTitle).should("be.visible");
+    cy.screenshot("inventory-page");
   });
 
   it("should be able to logout without errors", () => {
-    cy.allure().step("Login with valid credentials");
     cy.login();
-    cy.allure().step("Logout");
     cy.logout();
     cy.allure().step("Verify user is redirected to login page");
     cy.url().should("eq", "https://www.saucedemo.com/");
@@ -44,6 +43,7 @@ context("Visit all pages", () => {
     cy.get(LoginPage.passwordField).should("be.visible");
     cy.allure().step("Verify login button is visible");
     cy.get(LoginPage.loginButton).should("be.visible");
+    cy.screenshot("logout");
   });
 
   it("should not be able to login with random credentials", () => {
@@ -55,5 +55,6 @@ context("Visit all pages", () => {
     cy.get(LoginPage.loginButton).click();
     cy.allure().step("Verify error message is visible");
     cy.get(LoginPage.errorMessage).should("be.visible");
+    cy.screenshot("login-error");
   });
 });
