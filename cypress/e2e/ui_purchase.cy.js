@@ -22,7 +22,7 @@ context("Purchase flow", () => {
     cy.get(InventoryPage.addToCartButton).eq(0).click();
     cy.get(InventoryPage.addToCartButton).eq(1).click();
     cy.allure().step("Navigate to cart");
-    cy.get(InventoryPage.shoppingCartButton).click();
+    cy.get(InventoryPage.shoppingCartButtonsss).click();
     cy.allure().step("Verify cart is visible");
     cy.get(CartPage.cartTitle).should("be.visible");
     cy.get(CartPage.cartList).should("be.visible");
