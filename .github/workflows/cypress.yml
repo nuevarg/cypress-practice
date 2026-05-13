@@ -18,9 +18,9 @@ jobs:
 
       matrix:
         spec:
-          - cypress/e2e/ui_login.cy.js
-          - cypress/e2e/ui_purchase.cy.js
-          - cypress/e2e/google.cy.js
+          - cypress/e2e/ui/ui_login.cy.js
+          - cypress/e2e/ui/ui_purchase.cy.js
+          - cypress/e2e/ui/google.cy.js
 
     name: Run ${{ matrix.spec }}
 

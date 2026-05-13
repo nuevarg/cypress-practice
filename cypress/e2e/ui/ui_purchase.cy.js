@@ -1,9 +1,9 @@
 /// <reference types='cypress' />
-import InventoryPage from "../page/inventoryPage.js";
-import CartPage from "../page/cartPage.js";
-import CheckoutInfoPage from "../page/checkoutInfoPage.js";
-import CheckoutOverviewPage from "../page/checkoutOverviewPage.js";
-import CheckoutCompletePage from "../page/checkoutCompletePage.js";
+import InventoryPage from "../../page/inventoryPage.js";
+import CartPage from "../../page/cartPage.js";
+import CheckoutInfoPage from "../../page/checkoutInfoPage.js";
+import CheckoutOverviewPage from "../../page/checkoutOverviewPage.js";
+import CheckoutCompletePage from "../../page/checkoutCompletePage.js";
 import { faker } from "@faker-js/faker";
 
 const firstName = faker.person.firstName();
@@ -21,23 +21,38 @@ context("Purchase flow", () => {
     cy.allure().step("Add items to cart");
     cy.get(InventoryPage.addToCartButton).eq(0).click();
     cy.get(InventoryPage.addToCartButton).eq(1).click();
+
     cy.allure().step("Navigate to cart");
     cy.get(InventoryPage.shoppingCartButton).click();
+
     cy.allure().step("Verify cart is visible");
-    cy.get(CartPage.cartTitle).should("be.visible");
-    cy.get(CartPage.cartList).should("be.visible");
+    cy.get(CartPage.cartTitle)
+      .should("be.visible")
+      .get(CartPage.cartList)
+      .should("be.visible");
+
     cy.allure().step("Proceed to checkout");
     cy.get(CartPage.checkoutButton).click();
+
     cy.allure().step("Fill out checkout information");
     cy.get(CheckoutInfoPage.checkoutInfoTitle).should("be.visible");
-    cy.get(CheckoutInfoPage.firstName).type(firstName);
-    cy.get(CheckoutInfoPage.lastName).type(lastName);
-    cy.get(CheckoutInfoPage.postalCode).type(postalCode);
-    cy.get(CheckoutInfoPage.continueButton).click();
+    cy.get(CheckoutInfoPage.firstName)
+      .type(firstName)
+      .get(CheckoutInfoPage.lastName)
+      .type(lastName)
+      .get(CheckoutInfoPage.postalCode)
+      .type(postalCode)
+      .get(CheckoutInfoPage.continueButton)
+      .click();
+
     cy.allure().step("Verify checkout overview is visible");
-    cy.get(CheckoutOverviewPage.checkoutOverviewTitle).should("be.visible");
-    cy.get(CheckoutOverviewPage.cartList).should("be.visible");
-    cy.get(CheckoutOverviewPage.cartItem).should("be.visible");
+    cy.get(CheckoutOverviewPage.checkoutOverviewTitle)
+      .should("be.visible")
+      .get(CheckoutOverviewPage.cartList)
+      .should("be.visible")
+      .get(CheckoutOverviewPage.cartItem)
+      .should("be.visible");
+
     cy.allure().step("Complete the purchase");
     cy.get(CheckoutOverviewPage.finishButton).click();
     cy.get(CheckoutCompletePage.checkoutCompleteTitle).should(
