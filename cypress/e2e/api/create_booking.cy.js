@@ -3,23 +3,37 @@ import { createToken } from "../../support/api/auth";
 import { createBooking } from "../../support/api/booking";
 import { parseDynamicObject } from "../../support/parser/dynamicParser";
 
+const bookingFixture = require("../../fixtures/createBooking.json");
+const bookingData = bookingFixture.default || bookingFixture;
+
 describe("Create Booking API", () => {
-  it("should create bookings dynamically", () => {
-    createToken().then((tokenResponse) => {
-      const token = tokenResponse.body.token;
+  let token;
 
-      cy.fixture("createBooking").then((bookingData) => {
-        bookingData.forEach((data) => {
-          const payload = parseDynamicObject(data);
+  before(() => {
+    createToken().then((response) => {
+      token = response.body.token;
+    });
+  });
 
-          createBooking(payload, token).then((response) => {
-            expect(response.status).to.eq(200);
+  bookingData.forEach((data) => {
+    const payload = parseDynamicObject(data);
 
-            expect(response.body.booking).to.have.property("firstname");
+    const testTitle =
+      `Create booking | ` +
+      `${payload.firstname} ` +
+      `${payload.lastname} | ` +
+      `Price: ${payload.totalprice} | ` +
+      `${payload.bookingdates.checkin} -> ` +
+      `${payload.bookingdates.checkout}`;
 
-            cy.log(JSON.stringify(payload));
-          });
-        });
+    it(testTitle, () => {
+      createBooking(payload, token).then((response) => {
+        expect(response.status).to.eq(200);
+
+        expect(response.body.booking).to.have.property(
+          "firstname",
+          payload.firstname,
+        );
       });
     });
   });
