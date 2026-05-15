@@ -1,19 +1,10 @@
 /// <reference types='cypress' />
+import { createToken } from "../../support/api/auth.js";
 
-describe("Auth API", () => {
-  it("should generate auth token", () => {
-    const requestCreateToken = {
-      method: "POST",
-      url: "https://restful-booker.herokuapp.com/auth",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        username: "admin",
-        password: "password123",
-      },
-    };
-    cy.request(requestCreateToken).then((response) => {
+describe("Create Token API", () => {
+  it("should create token", () => {
+    
+    createToken().then((response) => {
       // validate status
       expect(response.status).to.eq(200);
 
