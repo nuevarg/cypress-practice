@@ -18,9 +18,17 @@ jobs:
 
       matrix:
         spec:
+          # UI Tests
           - cypress/e2e/ui/ui_login.cy.js
           - cypress/e2e/ui/ui_purchase.cy.js
           - cypress/e2e/ui/google.cy.js
+
+          # API Tests
+          - cypress/e2e/api/create_token.cy.js
+          - cypress/e2e/api/create_booking.cy.js
+          - cypress/e2e/api/update_booking.cy.js
+          - cypress/e2e/api/delete_booking.cy.js
+          - cypress/e2e/api/partial_update_booking.cy.js
 
     name: Run ${{ matrix.spec }}
 
@@ -40,8 +48,11 @@ jobs:
       - name: Run Cypress spec
         run: npx cypress run --spec "${{ matrix.spec }}"
         env:
-          CYPRESS_username: ${{ secrets.CYPRESS_USERNAME }}
-          CYPRESS_password: ${{ secrets.CYPRESS_PASSWORD }}
+          CYPRESS_web_username: ${{ secrets.CYPRESS_WEB_USERNAME }}
+          CYPRESS_web_password: ${{ secrets.CYPRESS_WEB_PASSWORD }}
+
+          CYPRESS_api_username: ${{ secrets.CYPRESS_API_USERNAME }}
+          CYPRESS_api_password: ${{ secrets.CYPRESS_API_PASSWORD }}
 
       - name: Upload Mochawesome HTML report
         if: always()
