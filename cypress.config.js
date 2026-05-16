@@ -5,7 +5,7 @@ const timestamp = new Date()
   .replace(/\./g, "-");
 
 module.exports = defineConfig({
-  allowCypressEnv: true,
+  // allowCypressEnv: true,
   video: true,
   chromeWebSecurity: false,
   fixturesFolder: "./cypress/fixtures",
