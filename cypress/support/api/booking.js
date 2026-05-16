@@ -47,3 +47,17 @@ export const getBooking = (bookingId, options = {}) => {
     failOnStatusCode: options.failOnStatusCode ?? true,
   });
 };
+
+export const partialUpdateBooking = (bookingId, payload, token) => {
+  return cy.request({
+    method: "PATCH",
+
+    url: `${Cypress.env("api").baseUrl}/booking/${bookingId}`,
+
+    headers: {
+      Cookie: `token=${token}`,
+    },
+
+    body: payload,
+  });
+};
