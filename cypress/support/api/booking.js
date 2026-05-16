@@ -1,67 +1,49 @@
-export const createBooking = (
-  payload,
-  token
-) => {
-
+export const createBooking = (payload, token) => {
   return cy.request({
-    method: 'POST',
+    method: "POST",
 
-    url:
-      `${Cypress.env('api').baseUrl}/booking`,
+    url: `${Cypress.env("api").baseUrl}/booking`,
 
     headers: {
-      Cookie: `token=${token}`
+      Cookie: `token=${token}`,
     },
 
-    body: payload
-  })
-}
+    body: payload,
+  });
+};
 
-export const updateBooking = (
-  bookingId,
-  payload,
-  token
-) => {
-
+export const updateBooking = (bookingId, payload, token) => {
   return cy.request({
-    method: 'PUT',
+    method: "PUT",
 
-    url:
-      `${Cypress.env('api').baseUrl}/booking/${bookingId}`,
+    url: `${Cypress.env("api").baseUrl}/booking/${bookingId}`,
 
     headers: {
-      Cookie: `token=${token}`
+      Cookie: `token=${token}`,
     },
 
-    body: payload
-  })
-}
+    body: payload,
+  });
+};
 
-export const deleteBooking = (
-  bookingId,
-  token
-) => {
-
+export const deleteBooking = (bookingId, token) => {
   return cy.request({
-    method: 'DELETE',
+    method: "DELETE",
 
-    url:
-      `${Cypress.env('api').baseUrl}/booking/${bookingId}`,
+    url: `${Cypress.env("api").baseUrl}/booking/${bookingId}`,
 
     headers: {
-      Cookie: `token=${token}`
-    }
-  })
-}
+      Cookie: `token=${token}`,
+    },
+  });
+};
 
-export const getBooking = (
-  bookingId
-) => {
-
+export const getBooking = (bookingId, options = {}) => {
   return cy.request({
-    method: 'GET',
+    method: "GET",
 
-    url:
-      `${Cypress.env('api').baseUrl}/booking/${bookingId}`
-  })
-}
+    url: `${Cypress.env("api").baseUrl}/booking/${bookingId}`,
+
+    failOnStatusCode: options.failOnStatusCode ?? true,
+  });
+};

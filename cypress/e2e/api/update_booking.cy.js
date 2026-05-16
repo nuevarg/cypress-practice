@@ -1,5 +1,4 @@
 /// <reference types='cypress' />
-
 import { createToken } from "../../support/api/auth";
 import {
   createBooking,
