@@ -16,3 +16,52 @@ export const createBooking = (
     body: payload
   })
 }
+
+export const updateBooking = (
+  bookingId,
+  payload,
+  token
+) => {
+
+  return cy.request({
+    method: 'PUT',
+
+    url:
+      `${Cypress.env('api').baseUrl}/booking/${bookingId}`,
+
+    headers: {
+      Cookie: `token=${token}`
+    },
+
+    body: payload
+  })
+}
+
+export const deleteBooking = (
+  bookingId,
+  token
+) => {
+
+  return cy.request({
+    method: 'DELETE',
+
+    url:
+      `${Cypress.env('api').baseUrl}/booking/${bookingId}`,
+
+    headers: {
+      Cookie: `token=${token}`
+    }
+  })
+}
+
+export const getBooking = (
+  bookingId
+) => {
+
+  return cy.request({
+    method: 'GET',
+
+    url:
+      `${Cypress.env('api').baseUrl}/booking/${bookingId}`
+  })
+}

@@ -29,7 +29,6 @@ describe("Create Booking API", () => {
     it(testTitle, () => {
       createBooking(payload, token).then((response) => {
         expect(response.status).to.eq(200);
-
         expect(response.body.booking).to.have.property(
           "firstname",
           payload.firstname,
