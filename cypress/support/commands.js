@@ -26,13 +26,10 @@
 import LoginPage from "../page/loginPage.js";
 import BurgerMenu from "../page/burgerMenu.js";
 
-const username = Cypress.env("web_username");
-const password = Cypress.env("web_password");
-
 Cypress.Commands.add("login", () => {
   cy.allure().step("Login with valid credentials");
-  cy.get(LoginPage.usernameField).type(username);
-  cy.get(LoginPage.passwordField).type(password);
+  cy.get(LoginPage.usernameField).type(Cypress.env("web_username"));
+  cy.get(LoginPage.passwordField).type(Cypress.env("web_password"));
   cy.get(LoginPage.loginButton).click();
 });
 
