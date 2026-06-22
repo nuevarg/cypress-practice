@@ -1,0 +1,219 @@
+Test Case ID,Module,Feature,Priority,Severity,Test Type,Precondition,Test Steps,Test Data,Expected Result,Automation Candidate,Regression Candidate,Status
+TC-AUTH-001,AUTHENTICATION,Login,High,Critical,Functional / Smoke,User is on the login landing page.,"1. Enter valid username in Username field.
+2. Enter valid password in Password field.
+3. Click the Login button.","username: 'standard_user', password: 'secret_sauce'",User is successfully logged in and redirected to the inventory dashboard (URL contains '/inventory.html').,Yes,Yes,Ready
+TC-AUTH-002,AUTHENTICATION,Login,High,Major,Functional / Negative,User is on the login landing page.,"1. Enter invalid username in Username field.
+2. Enter valid password in Password field.
+3. Click the Login button.","username: 'invalid_user', password: 'secret_sauce'",Login fails. User remains on login page. Visual error banner displays: 'Epic sadface: Username and password do not match any user in this service'.,Yes,Yes,Ready
+TC-AUTH-003,AUTHENTICATION,Login,High,Major,Functional / Negative,User is on the login landing page.,"1. Enter valid username in Username field.
+2. Enter invalid password in Password field.
+3. Click the Login button.","username: 'standard_user', password: 'wrong_password'",Login fails. User remains on login page. Visual error banner displays: 'Epic sadface: Username and password do not match any user in this service'.,Yes,Yes,Ready
+TC-AUTH-004,AUTHENTICATION,Login,Medium,Major,Functional / Negative,User is on the login landing page.,"1. Leave Username field empty.
+2. Leave Password field empty.
+3. Click the Login button.","username: '', password: ''",Login fails. User remains on login page. Error message displays: 'Epic sadface: Username is required'.,Yes,Yes,Ready
+TC-AUTH-005,AUTHENTICATION,Login,High,Major,Functional / Negative / Risk-Based,User is on the login landing page.,"1. Enter credentials for a locked-out user.
+2. Click the Login button.","username: 'locked_out_user', password: 'secret_sauce'","Login fails. Error message displays: 'Epic sadface: Sorry, this user has been locked out.'.",Yes,Yes,Ready
+TC-AUTH-006,AUTHENTICATION,Logout,High,Critical,Functional / Smoke,User is logged in and on the inventory page.,"1. Click the burger menu icon on top left.
+2. Click the 'Logout' link.",Active authenticated session,"User is logged out, session storage is cleared, and user is redirected back to the login landing page.",Yes,Yes,Ready
+TC-AUTH-007,AUTHENTICATION,Logout,High,Major,Security / Risk-Based,User has logged out and is on the login landing page.,1. Click the browser's back navigation button.,Browser session history cached,User remains on the login landing page or is immediately redirected back to it. Secure inventory pages are not displayed.,Yes,Yes,Ready
+TC-AUTH-008,AUTHENTICATION,Session Management,Medium,Medium,Functional / Multi-Session,User has an active login session in Browser A.,"1. Open Browser B.
+2. Enter the same login credentials and click Login.","username: 'standard_user', password: 'secret_sauce'",Login is successful in Browser B. Both browser windows can navigate application features independently.,No,No,Ready
+TC-AUTH-009,AUTHENTICATION,Session Management,High,Major,Functional,User is logged in and on the inventory page.,1. Trigger a full page reload (F5 or refresh button).,Active session cookie,User session is maintained. Inventory page reloads and user remains logged in without needing to input credentials.,Yes,Yes,Ready
+TC-AUTH-010,AUTHENTICATION,Session Management,High,Critical,Security,User is logged in on Browser A.,"1. Copy the URL of the inventory page ('/inventory.html').
+2. Open an Incognito/Private window.
+3. Paste the URL and press Enter.",URL path '/inventory.html',Private window does not display the inventory page and immediately redirects to the login landing page.,Yes,Yes,Ready
+TC-AUTH-011,AUTHENTICATION,Remember Me,Medium,Medium,Functional / Usability,User is on the login landing page.,"1. Enter valid username.
+2. Check the 'Remember Me' checkbox.
+3. Click Login.
+4. Log out and return to the login landing page.","username: 'standard_user', check: True",The Username input field is automatically populated with 'standard_user' when returning to the login page.,Yes,Yes,Ready
+TC-AUTH-012,AUTHENTICATION,Remember Me,Medium,Medium,Functional,User is on the login landing page.,"1. Enter valid username.
+2. Keep the 'Remember Me' checkbox unchecked.
+3. Click Login.
+4. Log out and return to the login landing page.","username: 'standard_user', check: False",The Username input field is completely empty when returning to the login page.,Yes,Yes,Ready
+TC-AUTH-013,AUTHENTICATION,Password Validation,High,Major,Functional / Boundary,User is on the login landing page.,"1. Enter username 'standard_user'.
+2. Enter password 'SECRET_SAUCE' (all caps).
+3. Click the Login button.","username: 'standard_user', password: 'SECRET_SAUCE'",Login fails because passwords are case-sensitive. Error message indicates wrong credentials.,Yes,Yes,Ready
+TC-AUTH-014,AUTHENTICATION,Password Validation,High,Major,Security / Negative,User is on the login landing page.,"1. Enter a script payload `<script>alert('xss')</script>` in the username field.
+2. Click the Login button.","username: '<script>alert(""xss"")</script>', password: 'password'","Input values are HTML sanitized. The script does not execute, and standard error handling handles the entry as raw text.",Yes,Yes,Ready
+TC-AUTH-015,AUTHENTICATION,Password Validation,High,Major,Usability / Safety,User is on the login landing page.,1. Type characters in the Password field.,password: 'secret_sauce',Password characters are masked (dots or asterisks). The actual password text is not visible in clear text.,Yes,Yes,Ready
+TC-REG-001,REGISTRATION,Successful Registration,High,Critical,Functional / Smoke,User is on the user registration page.,"1. Fill in all mandatory fields with valid data.
+2. Click Register button.","First: 'Jane', Last: 'Doe', Email: 'jane.doe@example.com', Pass: 'P@ssword123'","Account is successfully created. User is redirected to login or dashboard, showing a registration success notice.",Yes,Yes,Ready
+TC-REG-002,REGISTRATION,Duplicate Registration,High,Major,Functional / Negative / Risk-Based,A user with email 'jane.doe@example.com' is already registered in the system. User is on registration page.,"1. Enter existing email 'jane.doe@example.com' in the Email field.
+2. Complete other fields with valid data.
+3. Click Register.",Email: 'jane.doe@example.com',Registration fails. System displays an error: 'An account with this email address already exists'. No duplicate user is created.,Yes,Yes,Ready
+TC-REG-003,REGISTRATION,Mandatory Fields,High,Major,Functional / Negative,User is on the registration page.,"1. Leave First Name and Email blank.
+2. Click Register button.","First: '', Last: 'Smith', Email: '', Pass: 'P@ssword123'",Registration fails. Form highlights required fields in red. Error messages display: 'First Name is required' and 'Email is required'.,Yes,Yes,Ready
+TC-REG-004,REGISTRATION,Email Validation,High,Major,Functional / Negative,User is on the registration page.,"1. Enter an invalid email format (missing '@' or domain).
+2. Attempt to register.",Email: 'jane.doe.example.com',System rejects input. Visual inline error displays: 'Please enter a valid email address'.,Yes,Yes,Ready
+TC-REG-005,REGISTRATION,Email Validation,Medium,Medium,Boundary / Equivalence,User is on registration page.,"1. Fill in registration details using a 254-character long email (valid domain).
+2. Click Register.",Email: a * 242 + '@example.com',System accepts the boundary email format and creates the account successfully.,Yes,No,Ready
+TC-REG-006,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Fill in all fields with valid data.
+2. Set password as less than 8 characters.
+3. Click Register.",password: 'P@ss1',Registration fails. Password validation alert states: 'Password must be at least 8 characters long'.,Yes,Yes,Ready
+TC-REG-007,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Set password with no uppercase letters.
+2. Attempt to register.",password: 'p@ssword123',Registration fails. Validation error states: 'Password must contain at least one uppercase letter'.,Yes,Yes,Ready
+TC-REG-008,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Set password with no lowercase letters.
+2. Attempt to register.",password: 'P@SSWORD123',Registration fails. Validation error states: 'Password must contain at least one lowercase letter'.,Yes,Yes,Ready
+TC-REG-009,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Set password with no numeric digits.
+2. Attempt to register.",password: 'P@ssword',Registration fails. Validation error states: 'Password must contain at least one number'.,Yes,Yes,Ready
+TC-REG-010,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Set password with no special characters.
+2. Attempt to register.",password: 'Password123',Registration fails. Validation error states: 'Password must contain at least one special character'.,Yes,Yes,Ready
+TC-REG-011,REGISTRATION,Password Rules,High,Major,Functional / Negative,User is on registration page.,"1. Enter password 'P@ssword123'.
+2. Enter confirm password 'Password456'.
+3. Click Register.","password: 'P@ssword123', confirm: 'Password456'",Registration fails. Form displays inline error: 'Passwords do not match'.,Yes,Yes,Ready
+TC-REG-012,REGISTRATION,Mandatory Fields,Medium,Medium,Functional / Positive,User is on registration page. Optional Phone number field is available.,"1. Fill out all mandatory fields.
+2. Leave optional Phone field empty.
+3. Click Register.",Phone: '',"Registration succeeds. Optional fields are omitted, and user profile account is established.",Yes,No,Ready
+TC-REG-013,REGISTRATION,Registration,Medium,Medium,Functional / Data Integrity,User is on registration page.,"1. Enter username and email with leading/trailing whitespaces.
+2. Submit registration.","username: '   standard_user   ', email: '   standard@example.com   '","Registration succeeds. Data is trimmed of whitespace before storage, ensuring clean database records.",Yes,Yes,Ready
+TC-REG-014,REGISTRATION,Registration,High,Critical,Security / SQL Injection,User is on registration page.,"1. Enter standard SQL injection payload in name fields.
+2. Click Register.","first_name: ""' OR 1=1; --"", email: 'sql@example.com'","SQL injection characters are parameterized/escaped. Database handles inputs literally, creating the account name as raw string.",Yes,Yes,Ready
+TC-REG-015,REGISTRATION,Registration,High,Major,Functional / Negative,User is on registration page. Terms and Conditions checkbox is unchecked.,"1. Fill in all fields with valid data.
+2. Leave 'I agree to Terms & Conditions' checkbox unchecked.
+3. Click Register.",terms_checked: False,Registration is blocked. Form shows validation notice: 'You must agree to the Terms and Conditions to proceed'.,Yes,Yes,Ready
+TC-PROF-001,PROFILE MANAGEMENT,View Profile,High,Major,Functional,User is logged in and navigates to Profile Settings.,1. Verify loaded fields match registered user details.,Active session user profile data,"Profile fields display correct Email, First Name, Last Name, and Account Creation date.",Yes,Yes,Ready
+TC-PROF-002,PROFILE MANAGEMENT,Update Profile,High,Major,Functional,User is logged in on Profile settings screen.,"1. Modify First Name to 'Johnny'.
+2. Modify Last Name to 'Smith'.
+3. Click Save Changes.","First: 'Johnny', Last: 'Smith'",Changes persist. Toast notification states: 'Profile updated successfully'. New names load in profile views.,Yes,Yes,Ready
+TC-PROF-003,PROFILE MANAGEMENT,Update Profile,High,Major,Functional / Security,User is logged in on Profile Settings.,"1. Modify Email address.
+2. Click Save Changes.",Email: 'johnny.newemail@example.com',System sends a verification confirmation code to the new address. Account status marked unverified until email confirmation.,Yes,Yes,Ready
+TC-PROF-004,PROFILE MANAGEMENT,Save Changes,High,Major,Functional,User modifies multiple settings.,"1. Alter multiple input fields.
+2. Click Save Changes.
+3. Reload/refresh page.","First: 'Johnny', Phone: '55512345'",All changes are successfully stored in DB and persist across browser reloads.,Yes,Yes,Ready
+TC-PROF-005,PROFILE MANAGEMENT,Cancel Changes,Medium,Medium,Functional,User modifies inputs on Profile Settings.,"1. Change field entries.
+2. Click Cancel button.",Modified field inputs,Form fields revert back to original saved profile values. No updates are saved.,Yes,Yes,Ready
+TC-PROF-006,PROFILE MANAGEMENT,Profile Avatar,Medium,Medium,Functional,User is on profile details screen.,"1. Select a 1MB PNG image.
+2. Click Upload Avatar.",File: 'avatar.png' (1MB),Avatar is uploaded successfully. Profile photo instantly updates to show the uploaded image.,No,No,Ready
+TC-PROF-007,PROFILE MANAGEMENT,Profile Avatar,Medium,Medium,Functional / Negative,User is on profile upload view.,"1. Select an invalid file format (e.g. PDF).
+2. Click Upload Avatar.",File: 'resume.pdf',Upload blocked. Error message displays: 'Invalid file format. Please upload PNG or JPG images only'.,Yes,Yes,Ready
+TC-PROF-008,PROFILE MANAGEMENT,Profile Avatar,Medium,Medium,Functional / Negative / Boundary,User is on profile upload view.,1. Attempt to upload a PNG file exceeding the 5MB size limit.,File size: 6.2MB,Upload blocked. System alerts: 'File size exceeds maximum limit of 5MB'.,Yes,No,Ready
+TC-PROF-009,PROFILE MANAGEMENT,Update Profile,High,Major,Functional / Negative,User is logged in on Profile settings screen.,"1. Input invalid characters into phone number input field.
+2. Click Save.",Phone: 'abcdefgh',Save fails. Phone validation message displays: 'Phone number can only contain numbers and hyphen symbols'.,Yes,Yes,Ready
+TC-PROF-010,PROFILE MANAGEMENT,Update Profile,High,Major,Functional,User is on Change Password page.,"1. Enter current password.
+2. Enter new valid password twice.
+3. Save updates.","Current: 'secret_sauce', New: 'NewSecret123!'",Password updates successfully. User remains logged in or is asked to re-login with the new password.,Yes,Yes,Ready
+TC-PROF-011,PROFILE MANAGEMENT,Update Profile,High,Major,Functional / Negative,User is on Change Password page.,"1. Enter incorrect current password.
+2. Type new valid password.
+3. Click Update.","Current: 'wrong_password', New: 'NewSecret123!'",Password update fails. Error display alert states: 'Current password entered is incorrect'.,Yes,Yes,Ready
+TC-PROF-012,PROFILE MANAGEMENT,Profile Security,High,Critical,Security / Risk-Based,User is logged in on both Browser A and Browser B.,"1. Change account password on Browser A.
+2. Go to Browser B and click any page link.",Password changed event,Browser B session is automatically invalidated. Browser B redirects user back to login page on interaction.,No,Yes,Ready
+TC-PROF-013,PROFILE MANAGEMENT,View Profile,Medium,Medium,Usability,User viewport is set to Mobile (e.g. iPhone SE).,"1. Load profile page.
+2. Verify visual grid layout.",Viewport width: 375px,Profile page elements wrap neatly. Inputs do not overflow the viewport bounds.,Yes,Yes,Ready
+TC-PROF-014,PROFILE MANAGEMENT,View Profile,Medium,Low,Performance,Network speed throttled in browser developer tools.,"1. Click Profile tab.
+2. Observe loading visual behavior.",Network: Slow 3G,A clean skeleton loader or loading spinner displays until profile info finishes rendering.,Yes,No,Ready
+TC-PROF-015,PROFILE MANAGEMENT,Delete Account,High,Critical,Functional,User is logged in on profile deletion screen.,"1. Click Delete Account button.
+2. Verify pop-up warning.
+3. Click Confirm Deletion.",Confirmation active,Account database record is flagged deleted. User session is deleted. User is redirected to landing screen.,Yes,Yes,Ready
+TC-VAL-001,FORM VALIDATION,Required Fields,High,Major,Functional / Negative,User is on SauceDemo checkout info form.,"1. Enter first name and last name.
+2. Leave postal code field blank.
+3. Click Continue.","First: 'Jane', Last: 'Doe', Postal: ''",Checkout form blocks submit. Inline validation error displays: 'Error: Postal Code is required'.,Yes,Yes,Ready
+TC-VAL-002,FORM VALIDATION,Boundary Values,Medium,Medium,Functional / Boundary / Equivalence,First name validation allows min length of 2 characters.,"1. Enter a 2-character string in First Name field.
+2. Attempt checkout form submission.",First: 'Jo',Form validation passes. System accepts name and allows user to proceed.,Yes,No,Ready
+TC-VAL-003,FORM VALIDATION,Boundary Values,Medium,Medium,Functional / Boundary / Equivalence,First name validation allows max length of 50 characters.,"1. Enter a 50-character string in First Name field.
+2. Attempt checkout form submission.",First: 'A' * 50,Form validation passes. System accepts 50-character input.,Yes,No,Ready
+TC-VAL-004,FORM VALIDATION,Boundary Values,High,Major,Functional / Negative / Boundary,First name validation allows max length of 50 characters.,"1. Enter a 51-character string in First Name field.
+2. Observe input constraint or validation message.",First: 'A' * 51,System either blocks input character limit or displays error: 'First Name cannot exceed 50 characters'.,Yes,Yes,Ready
+TC-VAL-005,FORM VALIDATION,Postal Code,High,Major,Functional / Equivalence,Checkout checkout form is open.,"1. Enter a 5-digit number in Postal Code field.
+2. Verify form submission.",Postal: '90210',Postal code is accepted as a valid US zip code format. Step proceeds.,Yes,Yes,Ready
+TC-VAL-006,FORM VALIDATION,Postal Code,Medium,Medium,Functional / Equivalence / Boundary,Alphanumeric postal codes permitted.,"1. Enter Canadian style postal code (alphanumeric space separated).
+2. Submit checkout info.",Postal: 'K1A 0B1',"Form accepts space-separated alphanumeric ZIP formats, routing user to checkout overview.",Yes,No,Ready
+TC-VAL-007,FORM VALIDATION,Special Characters,Medium,Medium,Functional / Positive,User is on checkout checkout form.,"1. Enter name with hyphen and apostrophe.
+2. Submit checkout.","First: ""Jean-Luc"", Last: ""O'Connor""",Form accepts special-character formatting and does not trigger validation failure.,Yes,Yes,Ready
+TC-VAL-008,FORM VALIDATION,Special Characters,High,Major,Security / Negative,User is on checkout checkout form.,"1. Paste block of HTML markup into Last Name field.
+2. Submit form.",Last: '<b>Smith</b>',"HTML elements are treated as plain text strings, preventing styling injection or DOM changes.",Yes,Yes,Ready
+TC-VAL-009,FORM VALIDATION,Numeric Fields,High,Major,Functional / Negative,Item checkout quantity field is open (cart page).,"1. Type text characters in quantity input.
+2. Press Enter.",Qty: 'abc',Input rejects keypresses or resets to minimum value '1' or triggers error 'Please enter a number'.,Yes,Yes,Ready
+TC-VAL-010,FORM VALIDATION,Equivalence Partitioning,Medium,Medium,Boundary / Equivalence,Account age verification field (18-99).,"1. Input age 17 (invalid lower class).
+2. Input age 18 (valid boundary).
+3. Input 100 (invalid upper class).","Ages: 17, 18, 100",Ages 17 and 100 fail verification. Age 18 successfully passes validation rules.,Yes,No,Ready
+TC-VAL-011,FORM VALIDATION,Error State,Medium,Medium,Usability,An validation error is present on screen.,"1. Trigger required fields validation.
+2. Observe input highlight styling.",Empty inputs on click,"Input borders highlight in red, with corresponding error symbols next to text labels.",Yes,Yes,Ready
+TC-VAL-012,FORM VALIDATION,Success State,Medium,Low,Usability,User corrects a previously invalid input field.,1. Type valid value into highlighting field.,Corrected username entry,"Error indicator clears instantly and green outline/check displays, signaling correct state.",Yes,No,Ready
+TC-VAL-013,FORM VALIDATION,Tab Navigation,Medium,Low,Usability,Checkout checkout form is loaded.,"1. Select First Name field.
+2. Press Tab key.",Keyboard navigation Tab press,Focus shifts directly to Last Name field. Pressing Tab again moves focus to Postal Code.,Yes,No,Ready
+TC-VAL-014,FORM VALIDATION,Autofill,Low,Minor,Functional,Browser auto-fill history exists.,"1. Click First Name input.
+2. Select an auto-filled profile entry.",Auto-filled browser form data,Form inputs fill with correct values without breaking form constraints.,No,No,Ready
+TC-VAL-015,FORM VALIDATION,Form Submission,High,Major,Functional / Risk-Based,User completed all form fields.,1. Click submit button twice rapidly.,Double-click event,System disables submit button on first press. Transaction processes once without duplication.,Yes,Yes,Ready
+TC-API-001,API TESTING,GET Requests,High,Major,API / Smoke,API server is up and responsive.,1. Send HTTP GET request to '/booking'.,"Endpoint: '/booking', Headers: None",Status code is 200 OK. Response body contains list of active Booking IDs in JSON array format.,Yes,Yes,Ready
+TC-API-002,API TESTING,GET Requests,High,Major,API / Integration,A booking with ID 1 exists in the database.,1. Send HTTP GET request to '/booking/1'.,"Endpoint: '/booking/1', Headers: None","Status code is 200 OK. JSON contains correct keys: 'firstname', 'lastname', 'totalprice', 'depositpaid', 'bookingdates'.",Yes,Yes,Ready
+TC-API-003,API TESTING,GET Requests,Medium,Medium,API / Negative,API server is active.,1. Send HTTP GET request to invalid/non-existent booking ID '/booking/999999'.,Endpoint: '/booking/999999',Status code is 404 Not Found.,Yes,Yes,Ready
+TC-API-004,API TESTING,GET Requests,Medium,Medium,API / Parameterization,Bookings matching name 'Sally' exist.,1. Send HTTP GET request to '/booking?firstname=Sally'.,Query string parameters: 'firstname=Sally',Status code is 200 OK. Returns JSON list containing Booking IDs associated with name 'Sally' only.,Yes,Yes,Ready
+TC-API-005,API TESTING,GET Requests,Medium,Medium,API,Bookings with checkin date '2026-05-01' exist.,1. Send HTTP GET request to '/booking?checkin=2026-05-01'.,Query params: 'checkin=2026-05-01',Status code is 200 OK. Returns filtered list matching criteria.,Yes,No,Ready
+TC-API-006,API TESTING,POST Requests,High,Critical,API / Smoke,API server is active.,1. Send HTTP POST to '/booking' with a complete booking JSON body.,"Endpoint: '/booking', Payload: valid booking details JSON",Status code is 200 OK. Body contains 'bookingid' and 'booking' object mapping exact input payload.,Yes,Yes,Ready
+TC-API-007,API TESTING,POST Requests,High,Major,API / Negative,API server is active.,1. Send HTTP POST to '/booking' with missing 'lastname' field.,"Payload: {'firstname':'Jim', 'totalprice': 100}",Status code is 400 Bad Request or 500 Internal Server Error (depending on spec contract validation strictness).,Yes,Yes,Ready
+TC-API-008,API TESTING,POST Requests,Medium,Medium,API / Negative / Boundary,API server is active.,1. Send HTTP POST with checkin date format '05/01/2026' (invalid formatting).,Payload dates: {'checkin':'05/01/2026'},Status code is 400 Bad Request. Error response explains formatting requirements.,Yes,No,Ready
+TC-API-009,API TESTING,Authentication Tokens,High,Critical,API / Smoke,API credentials configured correctly.,1. Send HTTP POST request to '/auth' containing valid admin credentials.,"Payload: {'username': 'admin', 'password': 'password123'}",Status code is 200 OK. Response body contains valid authorization token string.,Yes,Yes,Ready
+TC-API-010,API TESTING,Authentication Tokens,High,Major,API / Negative,API credentials active.,1. Send HTTP POST to '/auth' with wrong credentials.,"Payload: {'username': 'badadmin', 'password': 'badpassword'}",Status code is 200 OK (restful-booker spec behavior). Response body contains error notice: 'Bad credentials'.,Yes,Yes,Ready
+TC-API-011,API TESTING,PUT Requests,High,Critical,API / Integration,Valid booking ID exists. Valid auth token obtained.,1. Send HTTP PUT request to '/booking/:id' with updated payload and auth token header.,"Endpoint: '/booking/10', Token: active, Payload: updated name values",Status code is 200 OK. Response body matches the new updated JSON payload completely.,Yes,Yes,Ready
+TC-API-012,API TESTING,PUT Requests,High,Major,API / Security / Negative,Valid booking ID exists.,1. Send HTTP PUT to '/booking/:id' without any authorization header token.,"Endpoint: '/booking/10', Payload: updated data",Status code is 403 Forbidden.,Yes,Yes,Ready
+TC-API-013,API TESTING,PUT Requests,Medium,Medium,API / Negative,Valid booking ID exists. Valid auth token.,1. Send HTTP PUT with malformed JSON body string (e.g. missing trailing brace).,"Payload: '{ ""firstname"": ""Broken JSON' (no closing brace)",Status code is 400 Bad Request.,Yes,Yes,Ready
+TC-API-014,API TESTING,PUT Requests,High,Major,API / Integration / Negative,Valid booking ID exists. Valid auth token.,1. Send HTTP PUT with invalid date boundaries (checkin after checkout).,"Checkin: '2026-05-10', Checkout: '2026-05-01'",Status code is 400 Bad Request. Error response displays validation failure message.,Yes,Yes,Ready
+TC-API-015,API TESTING,PATCH Requests,Medium,Major,API,Valid booking ID. Valid auth token.,1. Send HTTP PATCH to '/booking/:id' with updated 'firstname' only.,"Endpoint: '/booking/10', Payload: {'firstname': 'Mark'}","Status code is 200 OK. Only 'firstname' updates, all other values remain unchanged.",Yes,Yes,Ready
+TC-API-016,API TESTING,PATCH Requests,Medium,Medium,API / Security / Negative,Valid booking ID.,1. Send HTTP PATCH to '/booking/:id' with invalid auth token.,Token: 'invalid_token_123',Status code is 403 Forbidden.,Yes,Yes,Ready
+TC-API-017,API TESTING,DELETE Requests,High,Critical,API / Smoke,Valid booking ID. Valid auth token.,1. Send HTTP DELETE to '/booking/:id'.,Endpoint: '/booking/12',Status code is 201 Created (or 200 OK depending on spec). Booking is deleted.,Yes,Yes,Ready
+TC-API-018,API TESTING,DELETE Requests,High,Major,API / Security / Negative,Valid booking ID.,1. Send HTTP DELETE to '/booking/:id' with empty authorization header.,Endpoint: '/booking/12',Status code is 403 Forbidden.,Yes,Yes,Ready
+TC-API-019,API TESTING,Error Responses,Medium,Medium,API,API server is active.,1. Request endpoint using incorrect HTTP verb (e.g. POST to '/booking/1').,"Method: POST, Endpoint: '/booking/1'",Status code is 405 Method Not Allowed or 404 Not Found.,Yes,Yes,Ready
+TC-API-020,API TESTING,Error Responses,Low,Minor,API / Compliance,Request is sent.,1. Verify headers returned by API server.,HTTP response packet,Response headers contain 'Content-Type: application/json' and server technologies headers are hidden.,Yes,No,Ready
+TC-SEC-001,SECURITY TESTING,Invalid Tokens,High,Critical,Security / Negative,User is on booking view.,1. Make PUT request with modified token string (e.g. changing trailing letters).,Token: 'Cookie: token=123badtoken',"Server rejects request with 403 Forbidden, protecting data integrity.",Yes,Yes,Ready
+TC-SEC-002,SECURITY TESTING,Unauthorized Access,High,Critical,Security / Negative,User has no active session.,1. Attempt loading page '/checkout-step-one.html' directly in browser address bar.,Direct routing path Access,App blocks display. User is redirected to landing login page instantly.,Yes,Yes,Ready
+TC-SEC-003,SECURITY TESTING,Session Expiry,High,Major,Security / Negative,User has an active authenticated session.,"1. Clear browser cookies and session storage.
+2. Click the 'Add to Cart' button.",Storage flush,System detects missing session and redirects user to login page immediately.,Yes,Yes,Ready
+TC-SEC-004,SECURITY TESTING,SQL Injection,High,Critical,Security / SQL Injection,User is on login form.,"1. Input SQL command injection string into login fields.
+2. Click Login.","Username: ""admin' --"", Password: ''","Login fails. Database query handles values as parameters, returning no matches.",Yes,Yes,Ready
+TC-SEC-005,SECURITY TESTING,XSS Protection,High,Critical,Security / XSS,User checkout forms are loaded.,"1. Enter javascript snippet in First Name input.
+2. Save details.
+3. View saved overview screen.",First: '<img src=x onerror=alert(1)>',Code snippet renders strictly as literal text layout. Script execution does not trigger.,Yes,Yes,Ready
+TC-SEC-006,SECURITY TESTING,CSRF Validation,High,Critical,Security,User logged in.,1. Send a POST request to edit bookings from an external domain website simulation.,Cross-Origin POST request,"Webserver blocks call, indicating missing or invalid CSRF request token verification.",No,Yes,Ready
+TC-SEC-007,SECURITY TESTING,HTTPS Enforcement,High,Major,Security,App configured on production domains.,"1. Input non-secure URL format ('http://www.saucedemo.com').
+2. Press Enter.",URL: http prefix,HTTP traffic redirects to secure HTTPS protocol immediately.,Yes,No,Ready
+TC-SEC-008,SECURITY TESTING,Sensitive Data Leakage,High,Major,Security / Usability,User logs in.,"1. Open browser developer inspect logs.
+2. Verify Console output.",Inspect console logs,"No passwords, tokens, or security hashes are printed to the console output during execution.",Yes,Yes,Ready
+TC-SEC-009,SECURITY TESTING,CORS Policies,Medium,Medium,Security,API server configured.,1. Trigger script call to booking endpoints from a different origin domain.,Origin: http://maliciousdomain.com,CORS pre-flight check blocks request. Server returns Access-Control-Allow-Origin validation warning.,No,Yes,Ready
+TC-SEC-010,SECURITY TESTING,Rate Limiting,Medium,Medium,Security / Performance,Endpoint is accessible.,1. Generate 100 rapid login requests in 5 seconds to '/auth'.,100 POST requests,Request pipeline blocks incoming calls. Server returns HTTP status 429 Too Many Requests.,Yes,Yes,Ready
+TC-USA-001,USABILITY TESTING,Error Messages,Medium,Minor,Usability,Error is triggered.,"1. Input bad username on login.
+2. Observe visual wording style.",Bad user credentials,"Wording is easy to understand, clear, highlighting what field failed. No generic technical system/database codes are displayed.",Yes,No,Ready
+TC-USA-002,USABILITY TESTING,Navigation,Medium,Medium,Usability,User deep within checkout subpages.,1. Click header page logo link.,Click action on header branding,Routing redirects back to main dashboard home screen.,Yes,Yes,Ready
+TC-USA-003,USABILITY TESTING,User Feedback,Low,Minor,Usability,Buttons visible.,1. Move cursor over Checkout button.,Mouse hover event,"Button background changes shading or border highlights, giving visual response to cursor presence.",Yes,No,Ready
+TC-USA-004,USABILITY TESTING,Loading States,Medium,Minor,Usability,Slow response trigger simulated.,1. Click checkout Complete order button.,Click action,"Button shows 'Processing...' label and changes selector to disabled state, preventing double form submission.",Yes,Yes,Ready
+TC-USA-005,USABILITY TESTING,Font & Readability,Low,Minor,Usability / Accessibility,Web app loaded.,1. Verify text font size across pages on smaller responsive views.,Small view layout,Font sizing is readable (minimum 12px) and doesn't overlap adjacent container borders.,Yes,No,Ready
+TC-USA-006,USABILITY TESTING,Breadcrumbs,Medium,Minor,Usability,Checkout step pages loaded.,1. Observe multi-step page header section.,Visual inspection,Breadcrumb maps current step 'Info -> Overview -> Complete' indicating user's current progress location.,Yes,No,Ready
+TC-USA-007,USABILITY TESTING,Tooltips,Low,Minor,Usability,Complex checkout inputs visible.,1. Hover over Postal Code info icon.,Mouse hover icon,Helpful tooltip pops up explaining valid formats (e.g. '5-digit US ZIP').,Yes,No,Ready
+TC-USA-008,USABILITY TESTING,Keyboard Navigation,Medium,Medium,Usability,Inside Checkout login form.,"1. Type username and password.
+2. Press Enter key.",Keyboard Enter press,"Enter keypress fires submit action, logging user in successfully.",Yes,Yes,Ready
+TC-USA-009,USABILITY TESTING,Link Integrity,Low,Minor,Usability,Footer loaded.,1. Click Twitter social icon.,Social links click,"Branded Twitter portal opens in a new browser tab, keeping current site session active in original tab.",Yes,Yes,Ready
+TC-USA-010,USABILITY TESTING,Success Toast,Medium,Minor,Usability,Save settings triggered.,"1. Complete updates.
+2. Submit changes.",Submit action,A toast alert block pops up in screen corner confirming save. Automatically disappears after 4 seconds.,Yes,Yes,Ready
+TC-SMK-001,SMOKE TESTS,Critical User Journeys,High,Critical,Smoke,User on landing login page.,"1. Login with standard user credentials.
+2. Add item to cart.
+3. Complete checkout details.
+4. Finish checkout and check success messages.","User: standard credentials, Item: backpack",The complete purchase journey completes without error. Confirmation screen renders success text.,Yes,Yes,Ready
+TC-SMK-002,SMOKE TESTS,Critical User Journeys,High,Critical,Smoke,Server up.,"1. Generate API auth token.
+2. Create booking.
+3. Fetch created booking details.
+4. Delete booking.",Restful Booker endpoints,Full API CRUD booking lifecycle executes successfully. Response code status verifies action completion.,Yes,Yes,Ready
+TC-SMK-003,SMOKE TESTS,Critical User Journeys,High,Critical,Smoke / Negative,Server up.,1. Attempt booking deletion without token authorization.,"Booking ID, no token","Request blocked. API returns 403 Forbidden, protecting system state.",Yes,Yes,Ready
+TC-SMK-004,SMOKE TESTS,Critical User Journeys,High,Major,Smoke,User logged in.,"1. Click Burger menu link.
+2. Click Logout.",Click action,"User is immediately logged out, redirecting back to login screen.",Yes,Yes,Ready
+TC-SMK-005,SMOKE TESTS,Critical User Journeys,High,Major,Smoke / Security,Host active.,1. Access secured routing pages directly while unauthenticated.,Checkout info route URL,Routing redirects back to home login screen.,Yes,Yes,Ready
+TC-REG-101,REGRESSION TESTS,High-Risk Features,High,Critical,Regression,Multiple shopping sessions active.,"1. Login standard user.
+2. Add three items to shopping cart.
+3. Go to cart page and remove one item.
+4. Click Checkout.
+5. Verify purchase total updates.","Items: Bike, light, t-shirt. Remove light.","Total price updates accurately on Overview checkout page, subtracting the removed item cost. Order finishes.",Yes,Yes,Ready
+TC-REG-102,REGRESSION TESTS,High-Risk Features,High,Critical,Regression / API,Token active.,"1. Create booking (POST).
+2. Update booking payload details (PUT).
+3. Partially edit name (PATCH).
+4. Fetch details to confirm updates (GET).
+5. Remove booking (DELETE).
+6. Verify removal blocks access (GET to same ID).",Booking ID lifecycle sync,Every API level transaction completes in correct state sequence. Deletion returns 404/Method not allowed on GET query verification.,Yes,Yes,Ready
+TC-REG-103,REGRESSION TESTS,High-Risk Features,High,Major,Regression,User on login page.,"1. Enter locked out account details.
+2. Verify warning error state.
+3. Login immediately with standard user account.","Blocked user credentials, standard credentials","Invalid logins reject entry showing error toast. Standard credentials log in user immediately afterward, showing session resets correctly.",Yes,Yes,Ready
+TC-REG-104,REGRESSION TESTS,High-Risk Features,High,Major,Regression / Security,Auth credentials active.,"1. Attempt creating token with invalid credentials payload.
+2. Verify error response.
+3. Attempt to PUT booking updates with empty token header value.",Empty token headers,"Unauthenticated API request is blocked, returning 403 Forbidden status.",Yes,Yes,Ready
+TC-REG-105,REGRESSION TESTS,High-Risk Features,High,Major,Regression / Usability,User checkout inputs completed.,"1. Leave First Name input blank.
+2. Hit submit form button.
+3. Verify highlight borders.
+4. Fix naming field input.
+5. Click submit again.",Field corrections lifecycle,"Error warnings clear and form submits successfully, directing to overview page.",Yes,Yes,Ready

@@ -1,0 +1,50 @@
+# Requirements Traceability Matrix - Cypress Practice Project
+
+> [!NOTE]
+> This document is a complete Requirements Traceability Matrix (RTM) verifying bidirectional tracking between 43 product requirements and automated test case scripts. You can import [REQUIREMENTS_TRACEABILITY_MATRIX.csv](cypress-practice/test-doc/REQUIREMENTS_TRACEABILITY_MATRIX.csv) directly into Microsoft Excel or Google Sheets for test management tracking.
+
+| Requirement ID | Requirement Description | Business Priority | Risk Level | Module | Related Test Cases | Automation Coverage | Regression Coverage | Status | Comments |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| REQ-AUTH-001 | The system shall allow users to log in using valid credentials (username and password). | High | High | AUTHENTICATION | TC-AUTH-001, TC-SMK-001, TC-REG-103 | Automated | Yes | Approved | Core authentication gate. |
+| REQ-AUTH-002 | The system shall block login attempts with incorrect usernames. | High | High | AUTHENTICATION | TC-AUTH-002, TC-REG-103 | Automated | Yes | Approved | Blocks incorrect usernames. |
+| REQ-AUTH-003 | The system shall block login attempts with incorrect passwords. | High | High | AUTHENTICATION | TC-AUTH-003, TC-REG-103 | Automated | Yes | Approved | Case-sensitive password check. |
+| REQ-AUTH-004 | The system shall require both username and password fields to be populated. | Medium | Medium | AUTHENTICATION | TC-AUTH-004 | Automated | Yes | Approved | Basic field presence check. |
+| REQ-AUTH-005 | The system shall lock accounts after 5 consecutive failed login attempts. | High | Critical | AUTHENTICATION | TC-AUTH-005, TC-REG-103 | Automated | Yes | Approved | Brute-force protection mechanism. |
+| REQ-AUTH-006 | The system shall allow logged-in users to log out safely. | High | High | AUTHENTICATION | TC-AUTH-006, TC-SMK-004 | Automated | Yes | Approved | Clears user session storage. |
+| REQ-AUTH-007 | Logging out shall clear all session storage, cookies, and tokens. | High | Critical | AUTHENTICATION | TC-AUTH-006, TC-SEC-003 | Automated | Yes | Approved | Ensures token deletion. |
+| REQ-AUTH-008 | Users shall not be able to navigate back to authenticated pages using browser navigation after logging out. | High | High | AUTHENTICATION | TC-AUTH-007, TC-SMK-005 | Automated | Yes | Approved | Prevents unauthorized history cache loads. |
+| REQ-AUTH-009 | The login session shall persist across page reloads. | High | Medium | AUTHENTICATION | TC-AUTH-009 | Automated | Yes | Approved | Token state cookie persistence. |
+| REQ-AUTH-010 | The password input field characters shall be masked to prevent visual exposure. | Medium | Low | AUTHENTICATION | TC-AUTH-015 | Automated | Yes | Approved | HTML password layout mask check. |
+| REQ-REG-001 | The system shall allow guest users to register a new account by providing mandatory details. | High | High | REGISTRATION | TC-REG-001 | Automated | Yes | Approved | Creates user db records. |
+| REQ-REG-002 | The system shall prevent registration using an already registered email address. | High | High | REGISTRATION | TC-REG-002 | Automated | Yes | Approved | Unique database index verification. |
+| REQ-REG-003 | The email address entered during registration must follow standard email formatting. | High | Medium | REGISTRATION | TC-REG-004 | Automated | Yes | Approved | RegEx syntax validation. |
+| REQ-REG-004 | The system shall enforce email length validation up to 254 characters. | Medium | Medium | REGISTRATION | TC-REG-005 | Automated | No | Approved | RFC 5321 length check. |
+| REQ-REG-005 | Passwords must be at least 8 characters long and contain uppercase, lowercase, numeric, and special characters. | High | High | REGISTRATION | TC-REG-006, TC-REG-007, TC-REG-008, TC-REG-009, TC-REG-010 | Automated | Yes | Approved | Enforces password security complexity. |
+| REQ-REG-006 | The system shall validate that Password and Confirm Password inputs match. | High | Medium | REGISTRATION | TC-REG-011 | Automated | Yes | Approved | Prevents typos during registration. |
+| REQ-REG-007 | Registration shall require agreement to Terms and Conditions. | High | Medium | REGISTRATION | TC-REG-015 | Automated | Yes | Approved | Checkbox requirement gating. |
+| REQ-REG-008 | The registration input data shall trim leading and trailing spaces. | Medium | Low | REGISTRATION | TC-REG-013 | Automated | Yes | Approved | Protects against accidental whitespace keys. |
+| REQ-REG-009 | Registration inputs shall be sanitized to prevent SQL injection payloads. | High | Critical | REGISTRATION | TC-REG-014, TC-SEC-004 | Automated | Yes | Approved | Security query check. |
+| REQ-PROF-001 | Authenticated users shall be able to view their profile details. | High | Medium | PROFILE MANAGEMENT | TC-PROF-001 | Automated | Yes | Approved | Ensures session displays correct user data. |
+| REQ-PROF-002 | Users shall be able to update their First Name and Last Name. | High | Medium | PROFILE MANAGEMENT | TC-PROF-002 | Automated | Yes | Approved | Updates customer info. |
+| REQ-PROF-003 | Users shall be able to change their registered email address. | High | High | PROFILE MANAGEMENT | TC-PROF-003 | Automated | Yes | Approved | Triggers verification check. |
+| REQ-PROF-004 | Changes to the profile must persist in the database after clicking Save. | High | High | PROFILE MANAGEMENT | TC-PROF-004 | Automated | Yes | Approved | Database state persistence verification. |
+| REQ-PROF-005 | Clicking Cancel shall discard all unsaved edits to the profile. | Medium | Medium | PROFILE MANAGEMENT | TC-PROF-005 | Automated | Yes | Approved | Reverts input controls. |
+| REQ-PROF-006 | Users shall be able to upload a profile avatar image (PNG/JPG under 5MB). | Medium | Medium | PROFILE MANAGEMENT | TC-PROF-006, TC-PROF-007, TC-PROF-008 | Partially Automated | Yes | Approved | Image file type and size checking. Image validation is manual. |
+| REQ-PROF-007 | Changing account passwords shall invalidate sessions on all other active devices. | High | Critical | PROFILE MANAGEMENT | TC-PROF-012 | Manual | Yes | Approved | Token session invalidation test. Handled manually. |
+| REQ-PROF-008 | Users shall be able to delete their account after confirming their decision. | High | Critical | PROFILE MANAGEMENT | TC-PROF-015 | Automated | Yes | Approved | Permanently deletes user database structures. |
+| REQ-VAL-001 | The system shall block checkout submissions with empty mandatory fields. | High | High | FORM VALIDATION | TC-VAL-001, TC-REG-105 | Automated | Yes | Approved | Checkout gate requirement. |
+| REQ-VAL-002 | The First Name input field shall enforce length boundaries between 2 and 50 characters. | Medium | Medium | FORM VALIDATION | TC-VAL-002, TC-VAL-003, TC-VAL-004 | Automated | Yes | Approved | Boundary and limit verification. |
+| REQ-VAL-003 | The system shall validate US ZIP (5-digit) and Canadian Postal Code (alphanumeric) formats. | High | Medium | FORM VALIDATION | TC-VAL-005, TC-VAL-006 | Automated | Yes | Approved | Postal formatting check. |
+| REQ-VAL-004 | Form fields shall permit valid special characters (e.g. hyphens, apostrophes) in name inputs. | Medium | Low | FORM VALIDATION | TC-VAL-007 | Automated | Yes | Approved | Supports names like O'Connor or Smith-Jones. |
+| REQ-VAL-005 | Form submissions shall be protected against double click events. | High | High | FORM VALIDATION | TC-VAL-015 | Automated | Yes | Approved | Prevents redundant database processing. |
+| REQ-VAL-006 | Keyboard navigation using the Tab key shall move focus in logical order through inputs. | Low | Low | FORM VALIDATION | TC-VAL-013 | Automated | No | Approved | A11y/Keyboard accessibility verification. |
+| REQ-API-001 | The GET `/booking` endpoint shall retrieve a list of all active booking IDs. | High | Medium | API FEATURES | TC-API-001, TC-SMK-002, TC-REG-102 | Automated | Yes | Approved | Main query API verification. |
+| REQ-API-002 | The GET `/booking/:id` endpoint shall return booking details matching schema definitions. | High | Medium | API FEATURES | TC-API-002, TC-SMK-002, TC-REG-102 | Automated | Yes | Approved | Verifies data models structure. |
+| REQ-API-003 | The POST `/booking` endpoint shall create a new booking using valid parameters. | High | High | API FEATURES | TC-API-006, TC-SMK-002, TC-REG-102 | Automated | Yes | Approved | Critical booking generation API. |
+| REQ-API-004 | The PUT `/booking/:id` endpoint shall replace an existing booking with a new payload. | High | High | API FEATURES | TC-API-011, TC-REG-102 | Automated | Yes | Approved | Updates data record. |
+| REQ-API-005 | The PATCH `/booking/:id` endpoint shall partially update an existing booking. | Medium | Medium | API FEATURES | TC-API-015, TC-REG-102 | Automated | Yes | Approved | Supports individual property updates. |
+| REQ-API-006 | The DELETE `/booking/:id` endpoint shall delete an existing booking. | High | Critical | API FEATURES | TC-API-017, TC-SMK-002, TC-REG-102 | Automated | Yes | Approved | Removes booking record. |
+| REQ-SEC-001 | Edits or deletions to bookings shall require a valid authentication token. | High | Critical | SECURITY | TC-API-012, TC-API-016, TC-API-018, TC-SMK-003, TC-REG-104 | Automated | Yes | Approved | Token validation and parameter guard. |
+| REQ-SEC-002 | Unauthenticated users shall be blocked from viewing secure frontend routing views. | High | Critical | SECURITY | TC-SEC-002, TC-SMK-005 | Automated | Yes | Approved | Routing blocker protection. |
+| REQ-SEC-003 | The API server shall restrict traffic origin policies using CORS rules. | High | High | SECURITY | TC-SEC-009 | Manual | Yes | Approved | Cross-Origin checks. Validated via manual terminal checks. |
+| REQ-SEC-004 | The API endpoint `/auth` shall return a token only for valid admin credentials. | High | High | SECURITY | TC-API-009, TC-API-010, TC-REG-104 | Automated | Yes | Approved | Auth service token gate verification. |
