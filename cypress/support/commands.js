@@ -1,31 +1,21 @@
 // ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
+// Cypress Custom Commands Definition File
+// Custom commands extend the `cy` global namespace.
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 import LoginPage from "../page/loginPage.js";
 import BurgerMenu from "../page/burgerMenu.js";
 
+/**
+ * Custom Command: cy.login()
+ * 
+ * Purpose: Authenticates a user using credentials defined in environment variables 
+ * (cypress.env.json or Cypress configuration).
+ * Steps:
+ * 1. Types username into username input field.
+ * 2. Types password into password input field.
+ * 3. Clicks login button to submit credentials.
+ */
 Cypress.Commands.add("login", () => {
   cy.allure().step("Login with valid credentials");
   cy.get(LoginPage.usernameField).type(Cypress.env("web_username"));
@@ -33,8 +23,17 @@ Cypress.Commands.add("login", () => {
   cy.get(LoginPage.loginButton).click();
 });
 
+/**
+ * Custom Command: cy.logout()
+ * 
+ * Purpose: Logs out the currently authenticated user.
+ * Steps:
+ * 1. Opens burger navigation menu in top-left header.
+ * 2. Clicks the Logout menu option.
+ */
 Cypress.Commands.add("logout", () => {
   cy.allure().step("Logout from current account");
   cy.get(BurgerMenu.burgerButton).click();
   cy.get(BurgerMenu.logoutButton).click();
 });
+
