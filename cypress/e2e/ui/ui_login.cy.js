@@ -13,7 +13,7 @@ import LoginPage from "../../page/loginPage.js";
 import BurgerMenu from "../../page/burgerMenu.js";
 import InventoryPage from "../../page/inventoryPage.js";
 
-context("Visit all pages", () => {
+context("Login & Logout", () => {
   // Pre-condition: Open home / login landing page before each test execution
   beforeEach(() => {
     cy.allure().step("Open SauceDemo website");
