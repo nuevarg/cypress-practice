@@ -12,6 +12,9 @@ class CheckoutCompletePage {
   
   // Button to return to product list
   static backHomeButton = '[data-test="back-to-products"]';
+
+  // Button to generate PDF order
+  static generatePDFOrderButton = '[data-test="generate-pdf-order"]';
 }
 
 export default CheckoutCompletePage;

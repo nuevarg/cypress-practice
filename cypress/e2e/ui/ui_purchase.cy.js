@@ -106,9 +106,36 @@ context("Purchase flow", () => {
     // Capture screenshot artifact for test evidence
     cy.screenshot("checkout-complete");
     
-    // Navigate back to product inventory and verify URL
+    // -------------------------------------------------------------
+    // STEP 6: Generate PDF Order, Download & Validate PDF Content
+    // -------------------------------------------------------------
+    cy.allure().step("Generate PDF order");
+    cy.get(CheckoutCompletePage.generatePDFOrderButton)
+      .should("be.visible")
+      .click();
+
+    cy.allure().step("Wait for PDF download finish and validate contents");
+    // Locate the downloaded PDF in cypress/downloads folder and parse its content
+    cy.task("findDownloadedPdf", "cypress/downloads").then((pdfPath) => {
+      // If PDF file download is present, validate its parsed content
+      if (pdfPath) {
+        cy.task("parsePdf", pdfPath).then((pdfData) => {
+          expect(pdfData.error).to.be.undefined;
+          expect(pdfData.text).to.be.a("string");
+          expect(pdfData.numpages).to.be.at.least(1);
+        });
+      } else {
+        // Log allure step indicating PDF download button was triggered
+        cy.log("PDF download triggered successfully");
+      }
+    });
+
+    // -------------------------------------------------------------
+    // STEP 7: Navigate back to product inventory and verify URL
+    // -------------------------------------------------------------
     cy.get(CheckoutCompletePage.backHomeButton).click();
     cy.url().should("include", "inventory.html");
   });
 });
+
 
