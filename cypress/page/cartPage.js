@@ -18,6 +18,9 @@ class CartPage {
   
   // Button to proceed to checkout
   static checkoutButton = '[data-test="checkout"]';
+
+  // Continue shopping button back to Inventory page
+  static continueShoppingButton = '[data-test="continue-shopping"]';
 }
 
 export default CartPage;

@@ -1,7 +1,8 @@
 const { defineConfig } = require("cypress");
 const fs = require("fs");
 const path = require("path");
-const pdfParse = require("pdf-parse");
+const pdfParseModule = require("pdf-parse");
+const pdfParse = typeof pdfParseModule === "function" ? pdfParseModule : (pdfParseModule.default || pdfParseModule.pdf || pdfParseModule.parse);
 
 const timestamp = new Date()
   .toISOString()

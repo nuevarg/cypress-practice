@@ -17,7 +17,10 @@ class CheckoutInfoPage {
   static postalCode = '[data-test="postalCode"]';
   
   // Button to continue to the next checkout step
-  static continueButton = '[data-test="continue"]'
+  static continueButton = '[data-test="continue"]';
+
+  // Error message element displayed on validation failures
+  static errorMessage = '[data-test="error"]';
 }
 
 export default CheckoutInfoPage;
