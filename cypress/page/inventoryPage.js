@@ -18,6 +18,8 @@ class InventoryPage {
 
   // Shopping cart badge indicator
   static shoppingCartBadge = '[data-test="shopping-cart-badge"]';
+
+  static inventoryItemPriceLabel = '[data-test="inventory-item-price"]'
 }
 
 export default InventoryPage;

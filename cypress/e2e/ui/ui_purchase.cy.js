@@ -237,4 +237,105 @@ context("Purchase flow", () => {
       .should("be.visible")
       .and("contain", "Error: Postal Code is required");
   });
+
+  it("Should capture item prices, proceed to checkout overview, validate individual item prices and total calculation", () => {
+    // Step 1: Load target items from json fixture
+    cy.fixture("items.json").then((fixtureData) => {
+      const itemsToBuy = fixtureData.items;
+      const capturedPrices = {};
+      let expectedSubtotal = 0;
+
+      // Step 2: Iterate through items, capture price using InventoryPage.inventoryItemPriceLabel BEFORE adding to cart
+      cy.allure().step("Add specific items to cart and capture prices");
+      itemsToBuy.forEach((itemName) => {
+        cy.contains('[data-test="inventory-item"]', itemName).within(() => {
+          cy.get(InventoryPage.inventoryItemPriceLabel)
+            .invoke("text")
+            .then((priceText) => {
+              const cleanedPrice = priceText.trim();
+              // Capture price before adding item to cart
+              capturedPrices[itemName] = cleanedPrice;
+              const numericPrice = parseFloat(cleanedPrice.replace("$", ""));
+              expectedSubtotal += numericPrice;
+
+              // Add to cart after price is captured
+              cy.get(InventoryPage.addToCartButton).click();
+            });
+        });
+      });
+
+      // Step 3: Proceed to Checkout Overview page
+      cy.allure().step("Navigate to cart and proceed to checkout");
+      cy.get(InventoryPage.shoppingCartButton).click();
+      cy.get(CartPage.cartTitle).should("be.visible");
+      cy.get(CartPage.checkoutButton).click();
+
+      cy.allure().step("Fill checkout information and continue");
+      cy.get(CheckoutInfoPage.checkoutInfoTitle).should("be.visible");
+      cy.get(CheckoutInfoPage.firstName).type(firstName);
+      cy.get(CheckoutInfoPage.lastName).type(lastName);
+      cy.get(CheckoutInfoPage.postalCode).type(postalCode);
+      cy.get(CheckoutInfoPage.continueButton).click();
+
+      // Step 4: Validate each item price on Checkout Overview page against captured price
+      cy.allure().step(
+        "Validate price for each item on Checkout Overview page",
+      );
+      cy.get(CheckoutOverviewPage.checkoutOverviewTitle).should("be.visible");
+      itemsToBuy.forEach((itemName) => {
+        cy.contains(CheckoutOverviewPage.cartItem, itemName).within(() => {
+          cy.get(CheckoutOverviewPage.itemPriceLabel)
+            .invoke("text")
+            .then((overviewPrice) => {
+              expect(overviewPrice.trim()).to.equal(capturedPrices[itemName]);
+            });
+        });
+      });
+
+      // Step 5: Validate total price calculation on Checkout Overview page
+      cy.allure().step(
+        "Validate subtotal from checkout overview item prices, and total from subtotal + tax",
+      );
+      let overviewItemPricesSum = 0;
+      cy.get(CheckoutOverviewPage.itemPriceLabel)
+        .each(($el) => {
+          const price = parseFloat($el.text().replace(/[^0-9.]/g, ""));
+          overviewItemPricesSum += price;
+        })
+        .then(() => {
+          cy.get(CheckoutOverviewPage.subTotalLabel)
+            .invoke("text")
+            .then((subtotalText) => {
+              const displayedSubtotal = parseFloat(
+                subtotalText.replace(/[^0-9.]/g, ""),
+              );
+              // Validate displayed subtotal matches sum of item prices on checkout overview page
+              expect(displayedSubtotal).to.equal(
+                parseFloat(overviewItemPricesSum.toFixed(2)),
+              );
+
+              cy.get(CheckoutOverviewPage.taxLabel)
+                .invoke("text")
+                .then((taxText) => {
+                  const displayedTax = parseFloat(
+                    taxText.replace(/[^0-9.]/g, ""),
+                  );
+
+                  cy.get(CheckoutOverviewPage.totalLabel)
+                    .invoke("text")
+                    .then((totalText) => {
+                      const displayedTotal = parseFloat(
+                        totalText.replace(/[^0-9.]/g, ""),
+                      );
+                      // Validate displayed total matches calculation of subtotal + tax
+                      const expectedTotal = parseFloat(
+                        (displayedSubtotal + displayedTax).toFixed(2),
+                      );
+                      expect(displayedTotal).to.equal(expectedTotal);
+                    });
+                });
+            });
+        });
+    });
+  });
 });

@@ -15,6 +15,17 @@ class CheckoutOverviewPage {
   
   // Final button to complete the purchase
   static finishButton = '[data-test="finish"]';
+
+  // Item Price Label
+  static itemPriceLabel = '[data-test="inventory-item-price"]';
+
+  static subTotalLavbel = '[data-test="subtotal-label"]';
+
+  static subTotalLabel = '[data-test="subtotal-label"]';
+
+  static taxLabel = '[data-test="tax-label"]';
+
+  static totalLabel = '[data-test="total-label"]';
 };
 
 export default CheckoutOverviewPage;
